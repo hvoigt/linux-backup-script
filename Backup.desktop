@@ -1,0 +1,11 @@
+
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=true
+Icon[de_DE]=/media/Backup/scripts/icon.svg
+Exec=/media/Backup/scripts/backup.sh
+Name[de_DE]=Start Backup
+Name=Start Backup
+Icon=/media/Backup/scripts/icon.svg
+GenericName[de_DE.utf8]=Start Backup Script
