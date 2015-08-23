@@ -1,14 +1,12 @@
 #!/bin/bash
 target=/mnt/ftp
-src=/home/git
+src="/home/git /var/lib/ejabberd"
 #src="$HOME"
 max_backups=30
 backup_id=$(date +%Y-%m-%d_%H.%M.%S)
 
-echo -e "\n\n### $(date +%d.%m.%Y-%H:%M:%S) Backup gestartet"
-
 function error {
-    echo -e "\n\nFEHLER aufgetreten... bitte Heiko anrufen!"
+    echo -e "\n\nFEHLER aufgetreten..." 1>&2
     exit 1
 }
 
@@ -26,6 +24,8 @@ function delete_old_backups {
 }
 
 do_backup () {
+    echo -e "\n\n### $(date +%d.%m.%Y-%H:%M:%S) Backup gestartet"
+
     if [ -d "$target" ]; then
         dst="$target/$(hostname)"
         list_backups=$(mktemp)
@@ -49,7 +49,7 @@ do_backup () {
 	fi
 
 	tar cvjf $dst/home-git-$backup_id.tbz $EXCLUDE_OPTION \
-		$src/ || error
+		$src 2>&1 || error
 
         echo -e "\n\nAlles Ok, Backup fertig!"
     else
