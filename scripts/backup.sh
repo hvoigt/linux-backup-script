@@ -1,13 +1,14 @@
 #!/bin/bash
-target=/media/Backup
-max_backups=100
+target=/mnt/ftp
+src=/home/git
+#src="$HOME"
+max_backups=30
 backup_id=$(date +%Y-%m-%d_%H.%M.%S)
 
 echo -e "\n\n### $(date +%d.%m.%Y-%H:%M:%S) Backup gestartet"
 
 function error {
     echo -e "\n\nFEHLER aufgetreten... bitte Heiko anrufen!"
-    read i
     exit 1
 }
 
@@ -26,7 +27,6 @@ function delete_old_backups {
 
 do_backup () {
     if [ -d "$target" ]; then
-        src="$HOME"
         dst="$target/$(hostname)"
         list_backups=$(mktemp)
         if [ ! -d "$dst" ]; then
@@ -44,22 +44,17 @@ do_backup () {
             head -n $to_delete $list_backups | delete_old_backups || error
         fi
 
-        if [ ! -e "$dst/latest/$src" ]; then
-            mkdir -p "$dst/latest/$src" || error
-        fi
         if [ -f "$HOME/.backup-exclude" ]; then
-                EXCLUDE_OPTION=--exclude-from="$HOME/.backup-exclude"
+                EXCLUDE_OPTION="--exclude-from $HOME/.backup-exclude"
 	fi
-        rsync -av --delete --delete-after  $EXCLUDE_OPTION \
-              "$src/" "$dst/latest/$src/" || error
-        cp -al "$dst/latest" "$dst/$backup_id" || error
-        echo -e "\n\nAlles Ok, Backup fertig!\n\nTaste drücken um Fenster zu schliessen"
-        read i
+
+	tar cvjf $dst/home-git-$backup_id.tbz $EXCLUDE_OPTION \
+		$src/ || error
+
+        echo -e "\n\nAlles Ok, Backup fertig!"
     else
         echo "Keine Backup Festplatte angeschlossen."
         echo ""
-        echo Taste um zu schliessen
-        read i
     fi
 }
 
@@ -68,4 +63,4 @@ if [ ! -d "$(dirname "$logname")" ];then
 	mkdir -p "$(dirname "$logname")"
 fi
 
-do_backup | tee -a $logname
+do_backup >$logname
