@@ -1,6 +1,6 @@
 #!/bin/bash
 target=/mnt/ftp
-src="/home/git /var/lib/ejabberd"
+src="/home /var/lib/ejabberd /root"
 #src="$HOME"
 max_backups=30
 backup_id=$(date +%Y-%m-%d_%H.%M.%S)
@@ -21,6 +21,13 @@ function delete_old_backups {
         echo "Lösche $target/$(hostname)/$i"
         rm -rf $target/$(hostname)/$i
     done
+}
+
+ensure_mount_ftp () {
+	if ! mount | grep /mnt/ftp >/dev/null
+	then
+		curlftpfs ftp1.greatnet.de /mnt/ftp/
+	fi
 }
 
 do_backup () {
@@ -48,7 +55,7 @@ do_backup () {
                 EXCLUDE_OPTION="--exclude-from $HOME/.backup-exclude"
 	fi
 
-	tar cvjf $dst/home-git-$backup_id.tbz $EXCLUDE_OPTION \
+	tar cvjf $dst/backup-$backup_id.tbz $EXCLUDE_OPTION \
 		$src 2>&1 || error
 
         echo -e "\n\nAlles Ok, Backup fertig!"
@@ -57,6 +64,8 @@ do_backup () {
         echo ""
     fi
 }
+
+ensure_mount_ftp
 
 logname="$target/$(hostname)/log/backup_$backup_id.log"
 if [ ! -d "$(dirname "$logname")" ];then
