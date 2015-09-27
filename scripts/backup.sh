@@ -13,7 +13,7 @@ function error {
 function delete_old_backups {
     while read i; do
         # zur sicherheit die form des dateinamens überprüfen
-        if ! echo $i | egrep "^[0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9]{2}" > /dev/null
+        if ! echo $i | egrep "^backup-[0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9]{2}" > /dev/null
         then
             echo "Löschen alter Backups: '$i' ist kein valider Backupname"
             return 1
