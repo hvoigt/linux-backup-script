@@ -18,8 +18,9 @@ function delete_old_backups {
             echo "Löschen alter Backups: '$i' ist kein valider Backupname"
             return 1
         fi
-        echo "Lösche $target/$(hostname)/$i"
-        rm -rf $target/$(hostname)/$i
+        echo "Lösche $target/$(hostname)/$i|log"
+        rm $target/$(hostname)/$i
+        rm $target/$(hostname)/${i/%tbz/log}
     done
 }
 
@@ -67,7 +68,7 @@ do_backup () {
 
 ensure_mount_ftp
 
-logname="$target/$(hostname)/log/backup_$backup_id.log"
+logname="$target/$(hostname)/log/backup-$backup_id.log"
 if [ ! -d "$(dirname "$logname")" ];then
 	mkdir -p "$(dirname "$logname")"
 fi
