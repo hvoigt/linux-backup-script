@@ -20,7 +20,7 @@ function delete_old_backups {
         fi
         echo "Lösche $target/$(hostname)/$i|log"
         rm $target/$(hostname)/$i
-        rm $target/$(hostname)/${i/%tbz/log}
+        rm $target/$(hostname)/log/${i/%tbz/log}
     done
 }
 
