@@ -27,7 +27,7 @@ function delete_old_backups {
 ensure_mount_ftp () {
 	if ! mount | grep /mnt/ftp >/dev/null
 	then
-		curlftpfs $ftp_host /mnt/ftp/
+		curlftpfs $ftp_host $target
 	fi
 }
 
@@ -74,3 +74,5 @@ if [ ! -d "$(dirname "$logname")" ];then
 fi
 
 do_backup >$logname
+
+umount $target
