@@ -14,11 +14,13 @@ This is a simple backup script which started as a backup solution that should no
 
 Either
 
-  1. Mount you backup drive under `/media/Backup` and just run `./scripts/backup.sh`
+  1. Place these files in the root of your backup drive, mount the drive at `/media/Backup` and double click the ![backup icon][backup icon] shown in your file browser or just run `./scripts/backup.sh`.
   
 or
 
-  2. Have a look at the top of [scripts/backup.sh](scripts/backup.sh) there are some configuration variables to tweak and specify source and target folders, etc.
+  2. Have a look at the top of [scripts/backup.ss](scripts/backup.sh) there are some configuration variables to tweak and specify source and target folders, etc.
+
+[backup icon]: scripts/icon.svg "backup icon"
 
 # Server support
 
