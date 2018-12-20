@@ -56,7 +56,7 @@ do_backup () {
                 EXCLUDE_OPTION="--exclude-from $HOME/.backup-exclude"
 	fi
 
-	tar cvjf $dst/backup-$backup_id.tbz $EXCLUDE_OPTION \
+	tar cvzf $dst/backup-$backup_id.tgz $EXCLUDE_OPTION \
 		$src 2>&1 || error
 
         echo -e "\n\nAlles Ok, Backup fertig!"
