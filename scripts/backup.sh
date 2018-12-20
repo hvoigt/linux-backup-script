@@ -4,6 +4,7 @@ src="/home /var/lib/ejabberd /root"
 #src="$HOME"
 max_backups=30
 backup_id=$(date +%Y-%m-%d_%H.%M.%S)
+ftp_host=ftp.example.com
 
 function error {
     echo -e "\n\nFEHLER aufgetreten..." 1>&2
@@ -26,7 +27,7 @@ function delete_old_backups {
 ensure_mount_ftp () {
 	if ! mount | grep /mnt/ftp >/dev/null
 	then
-		curlftpfs ftp1.greatnet.de /mnt/ftp/
+		curlftpfs $ftp_host /mnt/ftp/
 	fi
 }
 
