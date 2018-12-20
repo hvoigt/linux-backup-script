@@ -22,4 +22,4 @@ or
 
 # Server support
 
-There is some server support for backup to tar files saved directly on a FTP Server on the _server_ branch. This works well but is probably very specific to my use case. Just in case someone is interested in this.
+There is some server support for backup to tar files saved directly on a FTP Server on the [_server_](https://github.com/hvoigt/linux-backup-script/tree/server) branch. This works well but is probably very specific to my use case. Just in case someone is interested in this.
