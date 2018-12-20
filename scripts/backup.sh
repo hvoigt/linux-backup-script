@@ -1,7 +1,6 @@
 #!/bin/bash
 target=/mnt/ftp
 src="/home /var/lib/ejabberd /root"
-#src="$HOME"
 max_backups=30
 backup_id=$(date +%Y-%m-%d_%H.%M.%S)
 ftp_host=ftp.example.com
