@@ -37,6 +37,7 @@ do_backup () {
     if [ -d "$target" ]; then
         dst="$target/$(hostname)"
         list_backups=$(mktemp)
+        ignore_sockets=$(mktemp)
         if [ ! -d "$dst" ]; then
     	mkdir "$dst" || exit 1
         fi
@@ -56,10 +57,13 @@ do_backup () {
                 EXCLUDE_OPTION="--exclude-from $HOME/.backup-exclude"
 	fi
 
+        find $src -type s >$ignore_sockets
+        EXCLUDE_OPTION="$EXCLUDE_OPTION --exclude-from $ignore_sockets"
 	tar cvzf $dst/backup-$backup_id.tgz $EXCLUDE_OPTION \
 		$src 2>&1 || error
 
         echo -e "\n\nAlles Ok, Backup fertig!"
+	rm $list_backups $ignore_sockets
     else
         echo "Keine Backup Festplatte angeschlossen."
         echo ""
