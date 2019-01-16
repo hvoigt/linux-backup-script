@@ -59,7 +59,7 @@ do_backup () {
 
         find $src -type s >$ignore_sockets
         EXCLUDE_OPTION="$EXCLUDE_OPTION --exclude-from $ignore_sockets"
-	tar cvzf $dst/backup-$backup_id.tgz $EXCLUDE_OPTION \
+	tar cvf $dst/backup-$backup_id.tgz -I pigz $EXCLUDE_OPTION \
 		$src 2>&1 || error
 
         echo -e "\n\nAlles Ok, Backup fertig!"
